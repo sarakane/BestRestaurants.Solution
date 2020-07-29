@@ -10,6 +10,7 @@
 
 @using (Html.BeginForm())
 {
+  @Html.HiddenFor(model => model.ReviewId)
   @Html.LabelFor(model => model.ReviewerName)
   @Html.TextBoxFor(model => model.ReviewerName)
   @Html.LabelFor(model => model.ReviewText)
