@@ -51,14 +51,14 @@ namespace BestRestaurants.Controllers
     [HttpPost]
     public ActionResult Edit(Cuisine cuisine)
     {
-      _db.Entry(cuisine).State = EntitySate.Modified;
+      _db.Entry(cuisine).State = EntityState.Modified;
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
 
     public ActionResult Delete(int id)
     {
-      Cuisine thisCuisine = _db.Cuisine.FirstOrDefault(cuisine => cuisine.CuisineId == id);
+      Cuisine thisCuisine = _db.Cuisines.FirstOrDefault(cuisine => cuisine.CuisineId == id);
       return View(thisCuisine);
     }
 

@@ -18,7 +18,20 @@ namespace BestRestaurants.Controllers
 
     public ActionResult Index()
     {
-      List<Restaurant> model = _db.Restaurants.Include(restaurant = restaurant.Cuisine).ToList();
+      List<Restaurant> model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).ToList();
+      ViewBag.CuisineId = new SelectList(_db.Cuisines, "CuisineId", "Name");
+      return View(model);
+    }
+
+    [HttpPost]
+    public ActionResult Index(int CuisineId)
+    {
+      int inputId = CuisineId;
+      List<Restaurant> model = _db.Restaurants
+        .Include(restaurant => restaurant.Cuisine)
+        .Where(restaurant => restaurant.CuisineId == inputId)
+        .ToList();
+      ViewBag.CuisineId = new SelectList(_db.Cuisines, "CuisineId", "Name");
       return View(model);
     }
 
@@ -36,12 +49,19 @@ namespace BestRestaurants.Controllers
       return RedirectToAction("Index");
     }
 
-    [HttpPost]
     public ActionResult Edit(int id)
     {
       Restaurant thisRestaurant = _db.Restaurants.FirstOrDefault(restaurant => restaurant.RestaurantId == id);
       ViewBag.CuisineId = new SelectList(_db.Cuisines, "CuisineId", "Name");
       return View (thisRestaurant);
+    }
+
+    [HttpPost]
+    public ActionResult Edit(Restaurant restaurant)
+    {
+      _db.Entry(restaurant).State = EntityState.Modified;
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
 
     public ActionResult Details(int id)
