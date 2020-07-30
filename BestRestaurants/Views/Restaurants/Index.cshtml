@@ -12,6 +12,8 @@
     <tr>
       <th scope="col">@Html.ActionLink("Restaurants", "Index", new { sortOrder = ViewBag.RestaurantSort })</th>
       <th scope="col">@Html.ActionLink("Cuisine", "Index", new { sortOrder = ViewBag.CuisineSort })</th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
 
@@ -26,6 +28,8 @@
       <tr>
         <th scope="row">@Html.ActionLink($"{restaurant.Name}", "Details", new { id = restaurant.RestaurantId })</th>
         <td>@restaurant.Cuisine.Name</td>
+        <td>@Html.ActionLink("Edit", "Edit", new { id = restaurant.RestaurantId })</td>
+        <td>@Html.ActionLink("Delete", "Delete", new { id = restaurant.RestaurantId })</td>
       </tr>
     }
   </tbody>
