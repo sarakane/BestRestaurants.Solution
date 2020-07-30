@@ -5,6 +5,7 @@
 * Run MySQL by entering `mysql -uroot -pepicodus` in the terminal
 * Enter the following commands to create the necessary database and tables:
 ```
+DROP DATABASE IF EXISTS `best_restaurants`;
 CREATE DATABASE `best_restaurants`;
 USE DATABASE `best_restaurants`;
 CREATE TABLE `cuisines` (
