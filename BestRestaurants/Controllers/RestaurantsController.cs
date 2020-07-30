@@ -16,9 +16,30 @@ namespace BestRestaurants.Controllers
       _db = db;
     }
 
-    public ActionResult Index()
+    public ActionResult Index(string sortOrder)
     {
-      List<Restaurant> model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).ToList();
+      ViewBag.RestaurantSort = sortOrder == "restaurant" ? "restaurant_desc" : "restaurant";
+      ViewBag.CuisineSort = sortOrder == "cuisine" ? "cuisine_desc" : "cuisine";
+      List<Restaurant> model = new List<Restaurant>{};
+      switch(sortOrder)
+      {
+        case "restaurant":
+          model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).OrderBy(restaurant => restaurant.Name).ToList();
+          break;
+        case "restaurant_desc":
+          model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).OrderByDescending(restaurant => restaurant.Name).ToList();
+          break;
+        case "cuisine":
+          model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).OrderBy(restaurant => restaurant.Cuisine).ToList();
+          break;
+        case "cuisine_desc":
+          model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).OrderByDescending(restaurant => restaurant.Cuisine).ToList();
+          break;
+        default:
+          model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).ToList();
+          break;
+      }
+      
       ViewBag.CuisineId = new SelectList(_db.Cuisines, "CuisineId", "Name");
       return View(model);
     }

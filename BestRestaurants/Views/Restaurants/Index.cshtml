@@ -7,21 +7,39 @@
 
 <h1>Restaurants</h1>
 
-@if (@Model.Count == 0)
-{
-  <h3>No restaurants have been added yet!</h3>
-}
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">@Html.ActionLink("Restaurants", "Index", new { sortOrder = ViewBag.RestaurantSort })</th>
+      <th scope="col">@Html.ActionLink("Cuisine", "Index", new { sortOrder = ViewBag.CuisineSort })</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
 
-@foreach (Restaurant restaurant in Model)
-{
-  <li>@Html.ActionLink($"{restaurant.Name}", "Details", new { id = restaurant.RestaurantId }) | @restaurant.Cuisine.Name</li>
-}
+  <tbody>
+    @if (@Model.Count() == 0)
+    {
+      <h3>No restaurants have been added yet!</h3>
+    }
+
+    @foreach (Restaurant restaurant in Model)
+    {
+      <tr>
+        <th scope="row">@Html.ActionLink($"{restaurant.Name}", "Details", new { id = restaurant.RestaurantId })</th>
+        <td>@restaurant.Cuisine.Name</td>
+        <td>@Html.ActionLink("Edit", "Edit", new { id = restaurant.RestaurantId })</td>
+        <td>@Html.ActionLink("Delete", "Delete", new { id = restaurant.RestaurantId })</td>
+      </tr>
+    }
+  </tbody>
+</table>
 
 <h3>Filter restaurants by Cuisine:</h3>
 @using (Html.BeginForm())
 {
   @Html.DropDownList("CuisineId")
-  <input type="submit" value="Filter" class="btn btn-default" />
+  <input type="submit" value="Filter" class="btn btn-primary" />
 }
 
 <p>@Html.ActionLink("Add new restaurant", "Create")</p>
