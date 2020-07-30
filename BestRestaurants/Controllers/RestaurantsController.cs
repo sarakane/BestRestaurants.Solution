@@ -18,16 +18,28 @@ namespace BestRestaurants.Controllers
 
     public ActionResult Index(string sortOrder)
     {
-      List<Restaurant> model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).ToList();
-      //IEnumerable<Restaurant> model = _db.Restaurants.Include(restaurant => restaurant.Cuisine);
-      if (sortOrder == "restaurant")
+      ViewBag.RestaurantSort = sortOrder == "restaurant" ? "restaurant_desc" : "restaurant";
+      ViewBag.CuisineSort = sortOrder == "cuisine" ? "cuisine_desc" : "cuisine";
+      List<Restaurant> model = new List<Restaurant>{};
+      switch(sortOrder)
       {
-        model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).OrderBy(restaurant => restaurant.Name).ToList();
+        case "restaurant":
+          model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).OrderBy(restaurant => restaurant.Name).ToList();
+          break;
+        case "restaurant_desc":
+          model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).OrderByDescending(restaurant => restaurant.Name).ToList();
+          break;
+        case "cuisine":
+          model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).OrderBy(restaurant => restaurant.Cuisine).ToList();
+          break;
+        case "cuisine_desc":
+          model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).OrderByDescending(restaurant => restaurant.Cuisine).ToList();
+          break;
+        default:
+          model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).ToList();
+          break;
       }
-      if (sortOrder == "cuisine")
-      {
-        model = _db.Restaurants.Include(restaurant => restaurant.Cuisine).OrderBy(restaurant => restaurant.Cuisine).ToList();
-      }
+      
       ViewBag.CuisineId = new SelectList(_db.Cuisines, "CuisineId", "Name");
       return View(model);
     }

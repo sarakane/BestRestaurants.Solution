@@ -10,8 +10,8 @@
 <table class="table">
   <thead class="thead-light">
     <tr>
-      <th scope="col">@Html.ActionLink("Restaurants", "Index", new { sortOrder = "restaurant"})</th>
-      <th scope="col">@Html.ActionLink("Cuisine", "Index", new { sortOrder = "cuisine"})</th>
+      <th scope="col">@Html.ActionLink("Restaurants", "Index", new { sortOrder = ViewBag.RestaurantSort })</th>
+      <th scope="col">@Html.ActionLink("Cuisine", "Index", new { sortOrder = ViewBag.CuisineSort })</th>
     </tr>
   </thead>
 
